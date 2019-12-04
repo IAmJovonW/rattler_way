@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,10 +17,8 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -27,27 +26,27 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DriverLugAdapter extends FirestoreRecyclerAdapter<Lugs, DriverLugAdapter.DriverLugHolder> {
+public class CustomerLugAdapter extends FirestoreRecyclerAdapter<Lugs, CustomerLugAdapter.CustomerLugHolder>{
 
-    public DriverLugAdapter(@NonNull FirestoreRecyclerOptions<Lugs> options){
+    public CustomerLugAdapter(@NonNull FirestoreRecyclerOptions<Lugs> options){
         super(options);
     }
 
     @NonNull
     @Override
-    public DriverLugAdapter.DriverLugHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CustomerLugHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_mylugs, parent,false);
-        return new DriverLugAdapter.DriverLugHolder(v);
+        return new CustomerLugHolder(v);
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull DriverLugAdapter.DriverLugHolder holder, int position, @NonNull Lugs lugs) {
+    protected void onBindViewHolder(@NonNull CustomerLugHolder holder, int position, @NonNull Lugs lugs) {
         holder.itemDescription.setText(lugs.getItemDescription());
         holder.date.setText(lugs.getDate());
         holder.time.setText(lugs.getTime());
         holder.pickupLocation.setText(lugs.getPickupLocation());
         holder.destination.setText(lugs.getDestination());
-        holder.btnAccept.setVisibility(View.VISIBLE);
+        holder.btnCancel.setVisibility(View.VISIBLE);
         holder.onClick(position);
 
 
@@ -55,12 +54,11 @@ public class DriverLugAdapter extends FirestoreRecyclerAdapter<Lugs, DriverLugAd
 
 
 
-    public class DriverLugHolder extends RecyclerView.ViewHolder {
-        private static final String TAG = "DriverLugAdapter" ;
+    public class CustomerLugHolder extends RecyclerView.ViewHolder {
+        private static final String TAG = "CustomerLugAdapter" ;
         TextView itemDescription, date, time, pickupLocation, destination;
-        Button btnAccept;
+        Button btnCancel;
         FirebaseFirestore lugFirestore = FirebaseFirestore.getInstance();
-        String driverId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
 
 
@@ -68,40 +66,24 @@ public class DriverLugAdapter extends FirestoreRecyclerAdapter<Lugs, DriverLugAd
 
 
 
-
-        public DriverLugHolder(@NonNull View itemView) {
+        public CustomerLugHolder(@NonNull View itemView) {
             super(itemView);
             itemDescription = itemView.findViewById(R.id.list_itemDescription);
             date = itemView.findViewById(R.id.list_date);
             time = itemView.findViewById(R.id.list_time);
             pickupLocation = itemView.findViewById(R.id.list_pickupLocation);
             destination = itemView.findViewById(R.id.list_destination);
-            btnAccept = itemView.findViewById(R.id.acceptLug);
+            btnCancel = itemView.findViewById(R.id.cancelLug);
         }
 
         public void onClick(final int position) {
-            btnAccept.setOnClickListener(new View.OnClickListener() {
+            btnCancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     String lugId = getSnapshots().getSnapshot(position).getId();
                     DocumentReference lugRef = lugFirestore.collection("lugs").document(lugId);
 
-                    //Attach driverId to Lug
-                    lugRef.update("driverId", driverId).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.d(TAG, "Document Snapshot successfully updated!");
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w(TAG, "Error updating document", e);
-                        }
-                    });
-
-
-                    //Change Lug status to Accepted
-                    lugRef.update("status", "Accepted").addOnSuccessListener(new OnSuccessListener<Void>() {
+                    lugRef.update("status", "Cancelled").addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
                             Log.d(TAG, "Document Snapshot successfully updated!");

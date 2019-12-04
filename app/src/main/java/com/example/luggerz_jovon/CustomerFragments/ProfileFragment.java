@@ -150,50 +150,50 @@ public class ProfileFragment extends Fragment {
         userInfo.put("phone", mPhone);
         mCustomerDatabase.updateChildren(userInfo);
 
-        if(resultUri != null) {
-
-            StorageReference filePath = FirebaseStorage.getInstance().getReference().child("profile_images").child(userID);
-            Bitmap bitmap = null;
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), resultUri);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos);
-            byte[] data = baos.toByteArray();
-            UploadTask uploadTask = filePath.putBytes(data);
-
-            uploadTask.addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-
-                    getActivity().finish();
-
-                    return;
-                }
-            });
-            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Uri downloadUrl = taskSnapshot.getDownloadUrl();
-
-                    Map newImage = new HashMap();
-                    newImage.put("profileImageUrl", downloadUrl.toString());
-                    mCustomerDatabase.updateChildren(newImage);
-                    Toast.makeText(getContext(), "Update Successful!", Toast.LENGTH_SHORT).show();
-                    getActivity().finish();
-
-                    return;
-                }
-            });
-        }else{
-            getActivity().finish();
+//        if(resultUri != null) {
+//
+//            StorageReference filePath = FirebaseStorage.getInstance().getReference().child("profile_images").child(userID);
+//            Bitmap bitmap = null;
+//            try {
+//                bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), resultUri);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//
+//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//            bitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos);
+//            byte[] data = baos.toByteArray();
+//            UploadTask uploadTask = filePath.putBytes(data);
+//
+//            uploadTask.addOnFailureListener(new OnFailureListener() {
+//                @Override
+//                public void onFailure(@NonNull Exception e) {
+//
+//                    getActivity().finish();
+//
+//                    return;
+//                }
+//            });
+//            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                @Override
+//                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                    Uri downloadUrl = taskSnapshot.getDownloadUrl();
+//
+//                    Map newImage = new HashMap();
+//                    newImage.put("profileImageUrl", downloadUrl.toString());
+//                    mCustomerDatabase.updateChildren(newImage);
+//                    Toast.makeText(getContext(), "Update Successful!", Toast.LENGTH_SHORT).show();
+//                    getActivity().finish();
+//
+//                    return;
+//                }
+//            });
+//        }else{
+//           // getActivity().finish();
 
         }
 
-    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

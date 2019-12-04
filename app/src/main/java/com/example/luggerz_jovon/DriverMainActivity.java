@@ -36,7 +36,7 @@ public class DriverMainActivity extends AppCompatActivity {
                         fragment = new DriverHomeFragment();
                         //Toast.makeText(MainActivity.this, "Home!", Toast.LENGTH_SHORT).show();
                         break;
-                    case R.id.action_compose:
+                    case R.id.action_myLugs:
                         fragment = new MyLugsFragment();
                         //Toast.makeText(MainActivity.this, "Compose!", Toast.LENGTH_SHORT).show();
                         break;
@@ -52,7 +52,7 @@ public class DriverMainActivity extends AppCompatActivity {
             }
         });
         // Set default selection
-        bottomNavigationView.setSelectedItemId(R.id.action_myLugs);
+        bottomNavigationView.setSelectedItemId(R.id.action_driverHome);
 
     }
 }

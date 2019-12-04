@@ -25,6 +25,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -45,6 +46,9 @@ public class RequestFragment extends Fragment {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthListener;
     private DatabaseReference lugDatabase, historyLugId;
+
+    FirebaseFirestore lugFirestore = FirebaseFirestore.getInstance();
+
 
     @Nullable
     @Override
@@ -108,19 +112,24 @@ public class RequestFragment extends Fragment {
                         requestService = radioButton.getText().toString(),
                         pStatus, customerId, driverId, lugId);
 
-                addLug(lugs);
+                addLug(lugs, lugId);
 
             }
         });
 
     }
 
-    private void addLug(Lugs lugs) {
+    private void addLug(Lugs lugs, String lugId) {
         FirebaseDatabase lugDatabase = FirebaseDatabase.getInstance();
         DatabaseReference myRef = lugDatabase.getReference("lugs").push();
 
+        //Firestore
+        lugFirestore.collection("lugs").document(lugId).set(lugs);
+
+        //Firebase rtdb
         myRef.setValue(lugs);
         myRef.child("lugId").setValue(myRef.getKey());
+
 
         Toast.makeText(getContext(), "Lug Requested!", Toast.LENGTH_SHORT).show();
 

@@ -13,29 +13,29 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.luggerz_jovon.Lugs;
-import com.example.luggerz_jovon.MyLugAdapter;
+import com.example.luggerz_jovon.CustomerLugAdapter;
 import com.example.luggerz_jovon.R;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.firebase.ui.database.SnapshotParser;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.ArrayList;
 
 public class CustomerHomeFragment extends Fragment {
 
-    DatabaseReference lugReference;
-    RecyclerView recyclerView;
-    ArrayList<Lugs> list;
-    MyLugAdapter adapter;
+    private CustomerLugAdapter adapter;
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance().getInstance();
+    private CollectionReference lugsRef = db.collection("lugs");
+
 
 
     @Nullable
@@ -49,37 +49,25 @@ public class CustomerHomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         String customerId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+        Query query = lugsRef.whereEqualTo("customerId", customerId).whereEqualTo("status", "Open");
 
+        FirestoreRecyclerOptions<Lugs> options = new FirestoreRecyclerOptions.Builder<Lugs>().setQuery(query, Lugs.class).build();
+        adapter = new CustomerLugAdapter(options);
 
-        recyclerView = view.findViewById(R.id.list_mylugs);
+        RecyclerView recyclerView = view.findViewById(R.id.list_mylugs);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        list = new ArrayList<Lugs>();
-
-        lugReference = FirebaseDatabase.getInstance().getReference().child("lugs");
-
-        //Attempting to filter by customerId
-        Query query = lugReference.orderByChild("customerId").equalTo(customerId);
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                    Lugs l = dataSnapshot1.getValue(Lugs.class);
-                    list.add(l);
-                }
-                adapter = new MyLugAdapter(getContext(), list);
-                recyclerView.setAdapter(adapter);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getContext(), "Ooops.....something is wrong", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-
-
+        recyclerView.setAdapter(adapter);
+    }
+    @Override
+    public void onStart(){
+        super.onStart();
+        adapter.startListening();
     }
 
-
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
+    }
 }
