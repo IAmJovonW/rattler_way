@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,7 +11,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.luggerz_jovon.Adapters.DriverMyLugAdapter;
+import com.example.luggerz_jovon.Adapters.CustomerLugAdapter;
+import com.example.luggerz_jovon.Adapters.DriverLugHistoryAdapter;
 import com.example.luggerz_jovon.Lugs;
 import com.example.luggerz_jovon.R;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -23,13 +23,11 @@ import com.google.firebase.firestore.Query;
 
 import java.util.Arrays;
 
-public class MyLugsFragment extends Fragment implements AdapterView.OnItemSelectedListener {
-    private DriverMyLugAdapter adapter;
+public class DriverHistoryFragment extends Fragment {
+    private DriverLugHistoryAdapter adapter;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db = FirebaseFirestore.getInstance().getInstance();
     private CollectionReference lugsRef = db.collection("lugs");
-    private String driverId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
 
 
 
@@ -44,27 +42,17 @@ public class MyLugsFragment extends Fragment implements AdapterView.OnItemSelect
         super.onViewCreated(view, savedInstanceState);
         String driverId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-
-
-
-
-
-        //Query query = lugsRef.whereEqualTo("status", "Accepted").whereEqualTo("driverId",driverId);
-        Query query = lugsRef.whereEqualTo("driverId", driverId).whereIn("status", Arrays.asList("Open", "On the way", "Picked Up", "Delivering"));
-
+        //Query query = lugsRef.whereEqualTo("customerId", customerId).whereEqualTo("status", "Open");
+        Query query = lugsRef.whereEqualTo("driverId", driverId).whereIn("status", Arrays.asList("Cancelled", "Completed"));
 
         FirestoreRecyclerOptions<Lugs> options = new FirestoreRecyclerOptions.Builder<Lugs>().setQuery(query, Lugs.class).build();
-        adapter = new DriverMyLugAdapter(options);
+        adapter = new DriverLugHistoryAdapter(options);
 
         RecyclerView recyclerView = view.findViewById(R.id.list_mylugs);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
     }
-
-
-
-
     @Override
     public void onStart(){
         super.onStart();
@@ -76,15 +64,5 @@ public class MyLugsFragment extends Fragment implements AdapterView.OnItemSelect
         super.onStop();
         adapter.stopListening();
     }
-
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-        String item = adapterView.getItemAtPosition(position).toString();
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-
-    }
 }
+

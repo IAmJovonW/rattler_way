@@ -1,7 +1,6 @@
-package com.example.luggerz_jovon;
+package com.example.luggerz_jovon.Adapters;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +14,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.luggerz_jovon.Lugs;
+import com.example.luggerz_jovon.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -22,9 +23,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class DriverMyLugAdapter extends   FirestoreRecyclerAdapter<Lugs, DriverMyLugAdapter.DriverMyLugHolder> implements AdapterView.OnItemSelectedListener {
     Context context;

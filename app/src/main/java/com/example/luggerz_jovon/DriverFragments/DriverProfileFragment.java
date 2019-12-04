@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.example.luggerz_jovon.CustomerFragments.CustomerHistoryFragment;
 import com.example.luggerz_jovon.R;
 import com.example.luggerz_jovon.Welcome;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -41,7 +42,7 @@ import java.util.Map;
 public class DriverProfileFragment extends Fragment {
     private EditText mNameField, mPhoneField;
 
-    private Button mBack, mConfirm, mLogout;
+    private Button mHistory, mConfirm, mLogout;
 
     private ImageView mProfileImage;
 
@@ -72,6 +73,7 @@ public class DriverProfileFragment extends Fragment {
 
         mConfirm = (Button) view.findViewById(R.id.btnSubmit);
         mLogout = (Button) view.findViewById(R.id.logout);
+        mHistory = view.findViewById(R.id.history);
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -106,6 +108,12 @@ public class DriverProfileFragment extends Fragment {
                 saveUserInformation();
                 Toast.makeText(getContext(), "Profile Updated!", Toast.LENGTH_SHORT).show();
 
+            }
+        });
+        mHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getFragmentManager().beginTransaction().replace(R.id.flContainer, new DriverHistoryFragment()).commit();
             }
         });
 
