@@ -27,6 +27,18 @@
         android:background="@null"
         android:hint="Date"
         android:inputType="date" />
+<!--    <DatePicker-->
+<!--        android:id="@+id/datePicker1"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="100dp"-->
+<!--        android:datePickerMode="spinner"-->
+<!--        android:calendarViewShown="false"/>-->
+<!--    <TimePicker-->
+<!--        android:id="@+id/timePicker1"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="100dp"-->
+<!--        android:timePickerMode="spinner"/>-->
+
 
     <EditText
         android:id="@+id/etLugTime"
