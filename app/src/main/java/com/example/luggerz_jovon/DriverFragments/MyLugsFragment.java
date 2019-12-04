@@ -25,6 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MyLugsFragment extends Fragment implements AdapterView.OnItemSelectedListener {
@@ -53,7 +54,9 @@ public class MyLugsFragment extends Fragment implements AdapterView.OnItemSelect
 
 
 
-        Query query = lugsRef.whereEqualTo("status", "Accepted").whereEqualTo("driverId",driverId);
+        //Query query = lugsRef.whereEqualTo("status", "Accepted").whereEqualTo("driverId",driverId);
+        Query query = lugsRef.whereEqualTo("driverId", driverId).whereIn("status", Arrays.asList("Open", "On the way", "Picked Up", "Delivering"));
+
 
         FirestoreRecyclerOptions<Lugs> options = new FirestoreRecyclerOptions.Builder<Lugs>().setQuery(query, Lugs.class).build();
         adapter = new DriverMyLugAdapter(options);

@@ -47,6 +47,7 @@ public class DriverLugAdapter extends FirestoreRecyclerAdapter<Lugs, DriverLugAd
         holder.time.setText(lugs.getTime());
         holder.pickupLocation.setText(lugs.getPickupLocation());
         holder.destination.setText(lugs.getDestination());
+        holder.status.setText(lugs.getStatus());
         holder.btnAccept.setVisibility(View.VISIBLE);
         holder.onClick(position);
 
@@ -57,7 +58,7 @@ public class DriverLugAdapter extends FirestoreRecyclerAdapter<Lugs, DriverLugAd
 
     public class DriverLugHolder extends RecyclerView.ViewHolder {
         private static final String TAG = "DriverLugAdapter" ;
-        TextView itemDescription, date, time, pickupLocation, destination;
+        TextView itemDescription, date, time, pickupLocation, destination, status;
         Button btnAccept;
         FirebaseFirestore lugFirestore = FirebaseFirestore.getInstance();
         String driverId = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -76,6 +77,7 @@ public class DriverLugAdapter extends FirestoreRecyclerAdapter<Lugs, DriverLugAd
             time = itemView.findViewById(R.id.list_time);
             pickupLocation = itemView.findViewById(R.id.list_pickupLocation);
             destination = itemView.findViewById(R.id.list_destination);
+            status = itemView.findViewById(R.id.list_status);
             btnAccept = itemView.findViewById(R.id.acceptLug);
         }
 

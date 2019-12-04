@@ -50,9 +50,10 @@ protected void onBindViewHolder(@NonNull DriverMyLugAdapter.DriverMyLugHolder ho
         holder.time.setText(lugs.getTime());
         holder.pickupLocation.setText(lugs.getPickupLocation());
         holder.destination.setText(lugs.getDestination());
+        holder.btnUpdate.setVisibility(View.VISIBLE);
         holder.spinner.setVisibility(View.VISIBLE);
         holder.spinner.setOnItemSelectedListener(this);
-
+        holder.onClick(position);
 
 
 
@@ -90,7 +91,7 @@ protected void onBindViewHolder(@NonNull DriverMyLugAdapter.DriverMyLugHolder ho
     TextView itemDescription, date, time, pickupLocation, destination;
 
     Spinner spinner;
-    Button btnAccept;
+    Button btnUpdate;
     FirebaseFirestore lugFirestore = FirebaseFirestore.getInstance();
     String driverId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -110,12 +111,37 @@ protected void onBindViewHolder(@NonNull DriverMyLugAdapter.DriverMyLugHolder ho
         pickupLocation = itemView.findViewById(R.id.list_pickupLocation);
         destination = itemView.findViewById(R.id.list_destination);
         spinner = (Spinner) itemView.findViewById(R.id.spinner);
+        btnUpdate = itemView.findViewById(R.id.updateLug);
 
 
 
     }
 
 
+        public void onClick(final int position) {
+            btnUpdate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String spinnerChoice = spinner.getSelectedItem().toString();
+                    String lugId = getSnapshots().getSnapshot(position).getId();
+                    DocumentReference lugRef = lugFirestore.collection("lugs").document(lugId);
 
-}
+                    lugRef.update("status", spinnerChoice).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "Document Snapshot successfully updated!");
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error updating document", e);
+                        }
+                    });
+
+
+
+                }
+            });
+        }
+    }
 }

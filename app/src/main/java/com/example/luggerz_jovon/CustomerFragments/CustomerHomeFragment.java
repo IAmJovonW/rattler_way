@@ -28,6 +28,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class CustomerHomeFragment extends Fragment {
 
@@ -49,7 +50,8 @@ public class CustomerHomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         String customerId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        Query query = lugsRef.whereEqualTo("customerId", customerId).whereEqualTo("status", "Open");
+        //Query query = lugsRef.whereEqualTo("customerId", customerId).whereEqualTo("status", "Open");
+        Query query = lugsRef.whereEqualTo("customerId", customerId).whereIn("status", Arrays.asList("Open", "On the way", "Picked Up", "Delivering"));
 
         FirestoreRecyclerOptions<Lugs> options = new FirestoreRecyclerOptions.Builder<Lugs>().setQuery(query, Lugs.class).build();
         adapter = new CustomerLugAdapter(options);

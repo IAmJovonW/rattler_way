@@ -6,5 +6,7 @@
         <item>Picked Up</item>
         <item>Delivering</item>
         <item>Completed</item>
+        <item>Cancelled</item>
+
     </string-array>
 </resources>

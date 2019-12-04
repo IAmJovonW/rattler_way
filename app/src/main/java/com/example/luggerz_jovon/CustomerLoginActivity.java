@@ -19,6 +19,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class CustomerLoginActivity extends AppCompatActivity {
 
     private EditText mEmail, mPassword;
@@ -74,6 +77,7 @@ public class CustomerLoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 final String email = mEmail.getText().toString();
                 final String password = mPassword.getText().toString();
+                final boolean isBanned = false;
                 mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(CustomerLoginActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -82,7 +86,15 @@ public class CustomerLoginActivity extends AppCompatActivity {
                         }else{
                             String user_id = mAuth.getCurrentUser().getUid();
                             DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("Users").child("Customers").child(user_id);
+
+
+                            //Adding isBannedField
+
+
                             current_user_db.setValue(true);
+                            Map userInfo = new HashMap();
+                            userInfo.put("isBanned", isBanned);
+                            current_user_db.updateChildren(userInfo);
                         }
                     }
                 });

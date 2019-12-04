@@ -46,6 +46,7 @@ public class CustomerLugAdapter extends FirestoreRecyclerAdapter<Lugs, CustomerL
         holder.time.setText(lugs.getTime());
         holder.pickupLocation.setText(lugs.getPickupLocation());
         holder.destination.setText(lugs.getDestination());
+        holder.status.setText(lugs.getStatus());
         holder.btnCancel.setVisibility(View.VISIBLE);
         holder.onClick(position);
 
@@ -56,7 +57,7 @@ public class CustomerLugAdapter extends FirestoreRecyclerAdapter<Lugs, CustomerL
 
     public class CustomerLugHolder extends RecyclerView.ViewHolder {
         private static final String TAG = "CustomerLugAdapter" ;
-        TextView itemDescription, date, time, pickupLocation, destination;
+        TextView itemDescription, date, time, pickupLocation, destination, status;
         Button btnCancel;
         FirebaseFirestore lugFirestore = FirebaseFirestore.getInstance();
 
@@ -74,6 +75,7 @@ public class CustomerLugAdapter extends FirestoreRecyclerAdapter<Lugs, CustomerL
             pickupLocation = itemView.findViewById(R.id.list_pickupLocation);
             destination = itemView.findViewById(R.id.list_destination);
             btnCancel = itemView.findViewById(R.id.cancelLug);
+            status = itemView.findViewById(R.id.list_status);
         }
 
         public void onClick(final int position) {
