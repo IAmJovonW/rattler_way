@@ -48,6 +48,7 @@ protected void onBindViewHolder(@NonNull DriverMyLugAdapter.DriverMyLugHolder ho
         holder.time.setText(lugs.getTime());
         holder.pickupLocation.setText(lugs.getPickupLocation());
         holder.destination.setText(lugs.getDestination());
+        holder.status.setText(lugs.getStatus());
         holder.btnUpdate.setVisibility(View.VISIBLE);
         holder.spinner.setVisibility(View.VISIBLE);
         holder.spinner.setOnItemSelectedListener(this);
@@ -86,7 +87,7 @@ protected void onBindViewHolder(@NonNull DriverMyLugAdapter.DriverMyLugHolder ho
 
     public class DriverMyLugHolder extends RecyclerView.ViewHolder  {
     private static final String TAG = "DriverMyLugAdapter" ;
-    TextView itemDescription, date, time, pickupLocation, destination;
+    TextView itemDescription, date, time, pickupLocation, destination, status;
 
     Spinner spinner;
     Button btnUpdate;
@@ -108,6 +109,7 @@ protected void onBindViewHolder(@NonNull DriverMyLugAdapter.DriverMyLugHolder ho
         time = itemView.findViewById(R.id.list_time);
         pickupLocation = itemView.findViewById(R.id.list_pickupLocation);
         destination = itemView.findViewById(R.id.list_destination);
+        status = itemView.findViewById(R.id.list_status);
         spinner = (Spinner) itemView.findViewById(R.id.spinner);
         btnUpdate = itemView.findViewById(R.id.updateLug);
 

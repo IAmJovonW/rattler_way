@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -12,26 +13,33 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.luggerz_jovon.Adapters.DriverLugHistoryAdapter;
+import com.example.luggerz_jovon.Adapters.DriverMyLugAdapter;
 import com.example.luggerz_jovon.Lugs;
 import com.example.luggerz_jovon.MyLugAdapter;
 import com.example.luggerz_jovon.R;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
-public class AdminHomeFragment extends Fragment {
-
-    DatabaseReference lugReference;
-    RecyclerView recyclerView;
-    ArrayList<Lugs> list;
-    MyLugAdapter adapter;
+public class AdminHomeFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+    private DriverMyLugAdapter adapter;
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance().getInstance();
+    private CollectionReference lugsRef = db.collection("lugs");
+    private String driverId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+
 
 
     @Nullable
@@ -43,39 +51,50 @@ public class AdminHomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        String customerId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String driverId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
 
 
-        recyclerView = view.findViewById(R.id.list_mylugs);
+
+
+
+        //Query query = lugsRef.whereEqualTo("status", "Accepted").whereEqualTo("driverId",driverId);
+        Query query = lugsRef.whereIn("status", Arrays.asList("Accepted", "Open", "On the way", "Picked Up", "Delivering",
+                                        "Completed", "Cancelled"));
+
+
+        FirestoreRecyclerOptions<Lugs> options = new FirestoreRecyclerOptions.Builder<Lugs>().setQuery(query, Lugs.class).build();
+        adapter = new DriverMyLugAdapter(options);
+
+        RecyclerView recyclerView = view.findViewById(R.id.list_mylugs);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        list = new ArrayList<Lugs>();
-
-        lugReference = FirebaseDatabase.getInstance().getReference().child("lugs");
-
-        //Attempting to filter by customerId
-        Query query = lugReference.orderByChild("customerId");
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                    Lugs l = dataSnapshot1.getValue(Lugs.class);
-                    list.add(l);
-                }
-                adapter = new MyLugAdapter(getContext(), list);
-                recyclerView.setAdapter(adapter);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getContext(), "Ooops.....something is wrong", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-
-
+        recyclerView.setAdapter(adapter);
     }
 
 
+
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        adapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+        String item = adapterView.getItemAtPosition(position).toString();
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
 }
