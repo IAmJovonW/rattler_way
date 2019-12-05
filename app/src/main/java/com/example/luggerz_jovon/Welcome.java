@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 public class Welcome extends AppCompatActivity {
     private Button mDriver, mCustomer;
+    private TextView mAdmin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +20,7 @@ public class Welcome extends AppCompatActivity {
 
         mDriver = (Button) findViewById(R.id.driver);
         mCustomer = (Button) findViewById(R.id.customer);
+        mAdmin = (TextView) findViewById(R.id.tvAdmin);
 
         //startService(new Intent(Welcome.this, onAppKilled.class));
 
@@ -38,6 +40,16 @@ public class Welcome extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Welcome.this, CustomerLoginActivity.class);
+                startActivity(intent);
+                finish();
+                return;
+            }
+        });
+
+        mAdmin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Welcome.this, AdminLoginActivity.class);
                 startActivity(intent);
                 finish();
                 return;

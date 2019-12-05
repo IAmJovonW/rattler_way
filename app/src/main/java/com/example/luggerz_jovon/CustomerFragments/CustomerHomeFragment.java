@@ -11,8 +11,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.luggerz_jovon.Lugs;
 import com.example.luggerz_jovon.Adapters.CustomerLugAdapter;
+import com.example.luggerz_jovon.Lugs;
 import com.example.luggerz_jovon.R;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;

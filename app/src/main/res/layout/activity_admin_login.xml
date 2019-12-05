@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Welcome"
-    android:orientation="vertical">
+    tools:context=".AdminLoginActivity">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_marginTop="30dp"
         android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -18,11 +18,23 @@
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
             android:fontFamily="@font/shrikhand"
             android:text="Luggerz"
             android:textColor="#1976D2"
             android:textSize="48sp" />
+
+        <TextView
+            android:id="@+id/tvLuggerSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/shrikhand"
+            android:text="Admin"
+            android:textAlignment="center"
+            android:textColor="#1976D2"
+            android:textSize="16sp" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -37,34 +49,39 @@
         android:orientation="vertical"
         android:weightSum="2">
 
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:singleLine="true" />
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:singleLine="true" />
+
+
         <Button
-            android:id="@+id/customer"
+            android:id="@+id/login"
             android:layout_width="196dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="60dp"
+            android:layout_marginBottom="30dp"
             android:background="@drawable/blue_button_rounded"
             android:fontFamily="@font/roboto"
-            android:text="Patron"
-            android:textColor="#FFFFFF" />
-        <Button
-            android:layout_width="196dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:layout_marginLeft="6dp"
-            android:layout_marginBottom="60dp"
-            android:background="@drawable/white_button_rounded"
-            android:fontFamily="@font/roboto"
-            android:text="Lugger"
-            android:textColor="#1976D2"
-            android:id="@+id/driver"/>
+            android:text="LOGIN"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"></Button>
 
-        <TextView
-            android:id="@+id/tvAdmin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Are you an admin?"
-            android:textColor="#1976D2" />
+
+
     </LinearLayout>
+
 
 </RelativeLayout>
