@@ -8,9 +8,9 @@
         android:title="Home"
         app:showAsAction="always" />
     <item
-        android:id="@+id/action_myLugs"
+        android:id="@+id/action_myRides"
         android:icon="@android:drawable/ic_menu_edit"
-        android:title="My Lugs"
+        android:title="My Rides"
         app:showAsAction="always" />
 
 

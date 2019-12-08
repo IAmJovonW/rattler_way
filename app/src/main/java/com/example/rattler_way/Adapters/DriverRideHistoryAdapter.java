@@ -44,7 +44,7 @@ public class DriverRideHistoryAdapter extends FirestoreRecyclerAdapter<RideReque
     public class DriverLugHistoryHolder extends RecyclerView.ViewHolder {
         private static final String TAG = "DriverRideAdapter" ;
         TextView itemDescription, date, time, pickupLocation, destination, status;
-        FirebaseFirestore lugFirestore = FirebaseFirestore.getInstance();
+        FirebaseFirestore rideFirestore = FirebaseFirestore.getInstance();
         String driverId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
 
@@ -56,7 +56,6 @@ public class DriverRideHistoryAdapter extends FirestoreRecyclerAdapter<RideReque
 
         public DriverLugHistoryHolder(@NonNull View itemView) {
             super(itemView);
-            itemDescription = itemView.findViewById(R.id.list_itemDescription);
             date = itemView.findViewById(R.id.list_date);
             time = itemView.findViewById(R.id.list_time);
             pickupLocation = itemView.findViewById(R.id.list_pickupLocation);

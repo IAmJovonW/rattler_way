@@ -41,7 +41,7 @@ public class RequestFragment extends Fragment {
     private FirebaseAuth.AuthStateListener firebaseAuthListener;
     private DatabaseReference rideDatabase;
 
-    FirebaseFirestore lugFirestore = FirebaseFirestore.getInstance();
+    FirebaseFirestore rideFirestore = FirebaseFirestore.getInstance();
 
 
     @Nullable
@@ -106,22 +106,22 @@ public class RequestFragment extends Fragment {
                         requestService = radioButton.getText().toString(),
                         pStatus, customerId, driverId, rideId);
 
-                addLug(ride, rideId);
+                addRide(ride, rideId);
 
             }
         });
 
     }
 
-    private void addLug(RideRequest lugs, String rideId) {
+    private void addRide(RideRequest rides, String rideId) {
         FirebaseDatabase lugDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = lugDatabase.getReference("rides").push();
+        DatabaseReference myRef = lugDatabase.getReference("Rides").push();
 
         //Firestore
-        lugFirestore.collection("rides").document(rideId).set(lugs);
+        rideFirestore.collection("Rides").document(rideId).set(rides);
 
         //Firebase rtdb
-        myRef.setValue(lugs);
+        myRef.setValue(rides);
         myRef.child("rideId").setValue(myRef.getKey());
 
 

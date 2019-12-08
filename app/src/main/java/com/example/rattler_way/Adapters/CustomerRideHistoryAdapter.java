@@ -14,7 +14,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class CustomerRideHistoryAdapter extends FirestoreRecyclerAdapter<RideRequest, CustomerRideHistoryAdapter.CustomerLugHistoryHolder> {
+public class CustomerRideHistoryAdapter extends FirestoreRecyclerAdapter<RideRequest, CustomerRideHistoryAdapter.CustomerRideHistoryHolder> {
 
     public CustomerRideHistoryAdapter(@NonNull FirestoreRecyclerOptions<RideRequest> options){
         super(options);
@@ -22,13 +22,13 @@ public class CustomerRideHistoryAdapter extends FirestoreRecyclerAdapter<RideReq
 
     @NonNull
     @Override
-    public CustomerRideHistoryAdapter.CustomerLugHistoryHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CustomerRideHistoryAdapter.CustomerRideHistoryHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_my_rides, parent,false);
-        return new CustomerRideHistoryAdapter.CustomerLugHistoryHolder(v);
+        return new CustomerRideHistoryAdapter.CustomerRideHistoryHolder(v);
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull CustomerRideHistoryAdapter.CustomerLugHistoryHolder holder, int position, @NonNull RideRequest lugs) {
+    protected void onBindViewHolder(@NonNull CustomerRideHistoryAdapter.CustomerRideHistoryHolder holder, int position, @NonNull RideRequest lugs) {
         holder.date.setText(lugs.getDate());
         holder.time.setText(lugs.getTime());
         holder.pickupLocation.setText(lugs.getPickupLocation());
@@ -40,10 +40,10 @@ public class CustomerRideHistoryAdapter extends FirestoreRecyclerAdapter<RideReq
 
 
 
-    public class CustomerLugHistoryHolder extends RecyclerView.ViewHolder {
+    public class CustomerRideHistoryHolder extends RecyclerView.ViewHolder {
         private static final String TAG = "CustomerRideAdapter" ;
         TextView itemDescription, date, time, pickupLocation, destination, status;
-        FirebaseFirestore lugFirestore = FirebaseFirestore.getInstance();
+        FirebaseFirestore rideFirestore = FirebaseFirestore.getInstance();
 
 
 
@@ -51,9 +51,8 @@ public class CustomerRideHistoryAdapter extends FirestoreRecyclerAdapter<RideReq
 
 
 
-        public CustomerLugHistoryHolder(@NonNull View itemView) {
+        public CustomerRideHistoryHolder(@NonNull View itemView) {
             super(itemView);
-            itemDescription = itemView.findViewById(R.id.list_itemDescription);
             date = itemView.findViewById(R.id.list_date);
             time = itemView.findViewById(R.id.list_time);
             pickupLocation = itemView.findViewById(R.id.list_pickupLocation);

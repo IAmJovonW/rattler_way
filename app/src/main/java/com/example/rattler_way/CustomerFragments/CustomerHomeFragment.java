@@ -27,14 +27,14 @@ public class CustomerHomeFragment extends Fragment {
     private CustomerRideAdapter adapter;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db = FirebaseFirestore.getInstance().getInstance();
-    private CollectionReference lugsRef = db.collection("lugs");
+    private CollectionReference rideRef = db.collection("Rides");
 
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_mylugs, container, false);
+        return inflater.inflate(R.layout.fragment_myrides, container, false);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class CustomerHomeFragment extends Fragment {
         String customerId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         //Query query = lugsRef.whereEqualTo("customerId", customerId).whereEqualTo("status", "Open");
-        Query query = lugsRef.whereEqualTo("customerId", customerId).whereIn("status", Arrays.asList("Accepted","Open", "On the way", "Picked Up", "Driving"));
+        Query query = rideRef.whereEqualTo("customerId", customerId).whereIn("status", Arrays.asList("Accepted","Open", "On the way", "Picked Up", "Driving"));
 
         FirestoreRecyclerOptions<RideRequest> options = new FirestoreRecyclerOptions.Builder<RideRequest>().setQuery(query, RideRequest.class).build();
         adapter = new CustomerRideAdapter(options);

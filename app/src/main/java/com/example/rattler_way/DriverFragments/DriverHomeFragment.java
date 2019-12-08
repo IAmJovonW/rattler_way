@@ -24,14 +24,14 @@ public class DriverHomeFragment extends Fragment {
     private DriverRideAdapter adapter;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db = FirebaseFirestore.getInstance().getInstance();
-    private CollectionReference lugsRef = db.collection("lugs");
+    private CollectionReference rideRef = db.collection("Rides");
 
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_mylugs, container, false);
+        return inflater.inflate(R.layout.fragment_myrides, container, false);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class DriverHomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         String driverId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        Query query = lugsRef.whereEqualTo("status", "Open");
+        Query query = rideRef.whereEqualTo("status", "Open");
 
         FirestoreRecyclerOptions<RideRequest> options = new FirestoreRecyclerOptions.Builder<RideRequest>().setQuery(query, RideRequest.class).build();
         adapter = new DriverRideAdapter(options);

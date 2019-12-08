@@ -35,7 +35,7 @@ public class DriverMainActivity extends AppCompatActivity {
                         fragment = new DriverHomeFragment();
                         //Toast.makeText(MainActivity.this, "Home!", Toast.LENGTH_SHORT).show();
                         break;
-                    case R.id.action_myLugs:
+                    case R.id.action_myRides:
                         fragment = new MyLugsFragment();
                         //Toast.makeText(MainActivity.this, "Compose!", Toast.LENGTH_SHORT).show();
                         break;

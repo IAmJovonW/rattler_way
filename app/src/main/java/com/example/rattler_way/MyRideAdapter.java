@@ -87,7 +87,7 @@ public class MyRideAdapter extends FirestoreRecyclerAdapter<RideRequest, MyRideA
 
         Spinner spinner;
         Button btnUpdate;
-        FirebaseFirestore lugFirestore = FirebaseFirestore.getInstance();
+        FirebaseFirestore rideFirestore = FirebaseFirestore.getInstance();
         String driverId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
 
@@ -100,7 +100,6 @@ public class MyRideAdapter extends FirestoreRecyclerAdapter<RideRequest, MyRideA
         public DriverMyLugHolder(@NonNull View itemView) {
             super(itemView);
 
-            itemDescription = itemView.findViewById(R.id.list_itemDescription);
             date = itemView.findViewById(R.id.list_date);
             time = itemView.findViewById(R.id.list_time);
             pickupLocation = itemView.findViewById(R.id.list_pickupLocation);
@@ -119,9 +118,9 @@ public class MyRideAdapter extends FirestoreRecyclerAdapter<RideRequest, MyRideA
                 public void onClick(View view) {
                     String spinnerChoice = spinner.getSelectedItem().toString();
                     String lugId = getSnapshots().getSnapshot(position).getId();
-                    DocumentReference lugRef = lugFirestore.collection("lugs").document(lugId);
+                    DocumentReference rideRef = rideFirestore.collection("Rides").document(lugId);
 
-                    lugRef.update("status", spinnerChoice).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    rideRef.update("status", spinnerChoice).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
                             Log.d(TAG, "Document Snapshot successfully updated!");

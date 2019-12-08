@@ -19,7 +19,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class CustomerRideAdapter extends FirestoreRecyclerAdapter<RideRequest, CustomerRideAdapter.CustomerLugHolder>{
+public class CustomerRideAdapter extends FirestoreRecyclerAdapter<RideRequest, CustomerRideAdapter.CustomerRideHolder>{
 
     public CustomerRideAdapter(@NonNull FirestoreRecyclerOptions<RideRequest> options){
         super(options);
@@ -27,13 +27,13 @@ public class CustomerRideAdapter extends FirestoreRecyclerAdapter<RideRequest, C
 
     @NonNull
     @Override
-    public CustomerLugHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CustomerRideHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_my_rides, parent,false);
-        return new CustomerLugHolder(v);
+        return new CustomerRideHolder(v);
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull CustomerLugHolder holder, int position, @NonNull RideRequest lugs) {
+    protected void onBindViewHolder(@NonNull CustomerRideHolder holder, int position, @NonNull RideRequest lugs) {
         holder.date.setText(lugs.getDate());
         holder.time.setText(lugs.getTime());
         holder.pickupLocation.setText(lugs.getPickupLocation());
@@ -47,11 +47,11 @@ public class CustomerRideAdapter extends FirestoreRecyclerAdapter<RideRequest, C
 
 
 
-    public class CustomerLugHolder extends RecyclerView.ViewHolder {
+    public class CustomerRideHolder extends RecyclerView.ViewHolder {
         private static final String TAG = "CustomerRideAdapter" ;
         TextView itemDescription, date, time, pickupLocation, destination, status;
         Button btnCancel;
-        FirebaseFirestore lugFirestore = FirebaseFirestore.getInstance();
+        FirebaseFirestore rideFirestore = FirebaseFirestore.getInstance();
 
 
 
@@ -59,9 +59,8 @@ public class CustomerRideAdapter extends FirestoreRecyclerAdapter<RideRequest, C
 
 
 
-        public CustomerLugHolder(@NonNull View itemView) {
+        public CustomerRideHolder(@NonNull View itemView) {
             super(itemView);
-            itemDescription = itemView.findViewById(R.id.list_itemDescription);
             date = itemView.findViewById(R.id.list_date);
             time = itemView.findViewById(R.id.list_time);
             pickupLocation = itemView.findViewById(R.id.list_pickupLocation);
@@ -75,9 +74,9 @@ public class CustomerRideAdapter extends FirestoreRecyclerAdapter<RideRequest, C
                 @Override
                 public void onClick(View view) {
                     String lugId = getSnapshots().getSnapshot(position).getId();
-                    DocumentReference lugRef = lugFirestore.collection("lugs").document(lugId);
+                    DocumentReference rideRef = rideFirestore.collection("Rides").document(lugId);
 
-                    lugRef.update("status", "Cancelled").addOnSuccessListener(new OnSuccessListener<Void>() {
+                    rideRef.update("status", "Cancelled").addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
                             Log.d(TAG, "Document Snapshot successfully updated!");

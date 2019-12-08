@@ -24,7 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class DriverMyRideAdapter extends   FirestoreRecyclerAdapter<RideRequest, DriverMyRideAdapter.DriverMyLugHolder> implements AdapterView.OnItemSelectedListener {
+public class DriverMyRideAdapter extends   FirestoreRecyclerAdapter<RideRequest, DriverMyRideAdapter.DriverMyRideHolder> implements AdapterView.OnItemSelectedListener {
     Context context;
 
 
@@ -34,14 +34,14 @@ public class DriverMyRideAdapter extends   FirestoreRecyclerAdapter<RideRequest,
 
 @NonNull
 @Override
-public DriverMyRideAdapter.DriverMyLugHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+public DriverMyRideAdapter.DriverMyRideHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_my_rides, parent,false);
-        return new DriverMyRideAdapter.DriverMyLugHolder(v);
+        return new DriverMyRideAdapter.DriverMyRideHolder(v);
         }
 
 @Override
-protected void onBindViewHolder(@NonNull DriverMyRideAdapter.DriverMyLugHolder holder, int position, @NonNull RideRequest lugs) {
+protected void onBindViewHolder(@NonNull DriverMyRideAdapter.DriverMyRideHolder holder, int position, @NonNull RideRequest lugs) {
 
         holder.date.setText(lugs.getDate());
         holder.time.setText(lugs.getTime());
@@ -84,13 +84,13 @@ protected void onBindViewHolder(@NonNull DriverMyRideAdapter.DriverMyLugHolder h
     }
 
 
-    public class DriverMyLugHolder extends RecyclerView.ViewHolder  {
+    public class DriverMyRideHolder extends RecyclerView.ViewHolder  {
     private static final String TAG = "DriverMyRideAdapter" ;
     TextView itemDescription, date, time, pickupLocation, destination, status;
 
     Spinner spinner;
     Button btnUpdate;
-    FirebaseFirestore lugFirestore = FirebaseFirestore.getInstance();
+    FirebaseFirestore rideFirestore = FirebaseFirestore.getInstance();
     String driverId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
 
@@ -100,10 +100,9 @@ protected void onBindViewHolder(@NonNull DriverMyRideAdapter.DriverMyLugHolder h
 
 
 
-    public DriverMyLugHolder(@NonNull View itemView) {
+    public DriverMyRideHolder(@NonNull View itemView) {
         super(itemView);
 
-        itemDescription = itemView.findViewById(R.id.list_itemDescription);
         date = itemView.findViewById(R.id.list_date);
         time = itemView.findViewById(R.id.list_time);
         pickupLocation = itemView.findViewById(R.id.list_pickupLocation);
@@ -122,10 +121,10 @@ protected void onBindViewHolder(@NonNull DriverMyRideAdapter.DriverMyLugHolder h
                 @Override
                 public void onClick(View view) {
                     String spinnerChoice = spinner.getSelectedItem().toString();
-                    String lugId = getSnapshots().getSnapshot(position).getId();
-                    DocumentReference lugRef = lugFirestore.collection("lugs").document(lugId);
+                    String rideId = getSnapshots().getSnapshot(position).getId();
+                    DocumentReference rideRef = rideFirestore.collection("Rides").document(rideId);
 
-                    lugRef.update("status", spinnerChoice).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    rideRef.update("status", spinnerChoice).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
                             Log.d(TAG, "Document Snapshot successfully updated!");

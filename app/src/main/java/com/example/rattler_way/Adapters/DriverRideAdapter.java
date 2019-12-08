@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class DriverRideAdapter extends FirestoreRecyclerAdapter<RideRequest, DriverRideAdapter.DriverLugHolder> {
+public class DriverRideAdapter extends FirestoreRecyclerAdapter<RideRequest, DriverRideAdapter.DriverRideHolder> {
 
     public DriverRideAdapter(@NonNull FirestoreRecyclerOptions<RideRequest> options){
         super(options);
@@ -28,13 +28,13 @@ public class DriverRideAdapter extends FirestoreRecyclerAdapter<RideRequest, Dri
 
     @NonNull
     @Override
-    public DriverRideAdapter.DriverLugHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public DriverRideAdapter.DriverRideHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_my_rides, parent,false);
-        return new DriverRideAdapter.DriverLugHolder(v);
+        return new DriverRideAdapter.DriverRideHolder(v);
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull DriverRideAdapter.DriverLugHolder holder, int position, @NonNull RideRequest lugs) {
+    protected void onBindViewHolder(@NonNull DriverRideAdapter.DriverRideHolder holder, int position, @NonNull RideRequest lugs) {
         holder.date.setText(lugs.getDate());
         holder.time.setText(lugs.getTime());
         holder.pickupLocation.setText(lugs.getPickupLocation());
@@ -48,11 +48,11 @@ public class DriverRideAdapter extends FirestoreRecyclerAdapter<RideRequest, Dri
 
 
 
-    public class DriverLugHolder extends RecyclerView.ViewHolder {
+    public class DriverRideHolder extends RecyclerView.ViewHolder {
         private static final String TAG = "DriverRideAdapter" ;
         TextView itemDescription, date, time, pickupLocation, destination, status;
         Button btnAccept;
-        FirebaseFirestore lugFirestore = FirebaseFirestore.getInstance();
+        FirebaseFirestore rideFirestore = FirebaseFirestore.getInstance();
         String driverId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
 
@@ -62,9 +62,8 @@ public class DriverRideAdapter extends FirestoreRecyclerAdapter<RideRequest, Dri
 
 
 
-        public DriverLugHolder(@NonNull View itemView) {
+        public DriverRideHolder(@NonNull View itemView) {
             super(itemView);
-            itemDescription = itemView.findViewById(R.id.list_itemDescription);
             date = itemView.findViewById(R.id.list_date);
             time = itemView.findViewById(R.id.list_time);
             pickupLocation = itemView.findViewById(R.id.list_pickupLocation);
@@ -78,7 +77,7 @@ public class DriverRideAdapter extends FirestoreRecyclerAdapter<RideRequest, Dri
                 @Override
                 public void onClick(View view) {
                     String lugId = getSnapshots().getSnapshot(position).getId();
-                    DocumentReference lugRef = lugFirestore.collection("lugs").document(lugId);
+                    DocumentReference lugRef = rideFirestore.collection("Rides").document(lugId);
 
                     //Attach driverId to Lug
                     lugRef.update("driverId", driverId).addOnSuccessListener(new OnSuccessListener<Void>() {

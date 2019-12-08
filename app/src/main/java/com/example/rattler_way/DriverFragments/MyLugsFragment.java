@@ -27,7 +27,7 @@ public class MyLugsFragment extends Fragment implements AdapterView.OnItemSelect
     private DriverMyRideAdapter adapter;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db = FirebaseFirestore.getInstance().getInstance();
-    private CollectionReference lugsRef = db.collection("lugs");
+    private CollectionReference rideRef = db.collection("Rides");
     private String driverId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
 
@@ -36,7 +36,7 @@ public class MyLugsFragment extends Fragment implements AdapterView.OnItemSelect
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_mylugs, container, false);
+        return inflater.inflate(R.layout.fragment_myrides, container, false);
     }
 
     @Override
@@ -49,8 +49,7 @@ public class MyLugsFragment extends Fragment implements AdapterView.OnItemSelect
 
 
 
-        //Query query = lugsRef.whereEqualTo("status", "Accepted").whereEqualTo("driverId",driverId);
-        Query query = lugsRef.whereEqualTo("driverId", driverId).whereIn("status", Arrays.asList("Accepted", "Open", "On the way", "Picked Up", "Driving"));
+        Query query = rideRef.whereEqualTo("driverId", driverId).whereIn("status", Arrays.asList("Accepted", "Open", "On the way", "Picked Up", "Driving"));
 
 
         FirestoreRecyclerOptions<RideRequest> options = new FirestoreRecyclerOptions.Builder<RideRequest>().setQuery(query, RideRequest.class).build();

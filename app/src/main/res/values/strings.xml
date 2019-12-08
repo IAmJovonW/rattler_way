@@ -1,10 +1,10 @@
 <resources>
-    <string name="app_name">luggerz_jovon</string>
+    <string name="app_name">rattler_way</string>
 
     <string-array name="status_options">
         <item>On the way</item>
         <item>Picked Up</item>
-        <item>Delivering</item>
+        <item>Driving</item>
         <item>Completed</item>
         <item>Cancelled</item>
 

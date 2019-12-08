@@ -26,14 +26,14 @@ public class DriverHistoryFragment extends Fragment {
     private DriverRideHistoryAdapter adapter;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db = FirebaseFirestore.getInstance().getInstance();
-    private CollectionReference lugsRef = db.collection("lugs");
+    private CollectionReference rideRef = db.collection("Rides");
 
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_mylugs, container, false);
+        return inflater.inflate(R.layout.fragment_myrides, container, false);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class DriverHistoryFragment extends Fragment {
         String driverId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         //Query query = lugsRef.whereEqualTo("customerId", customerId).whereEqualTo("status", "Open");
-        Query query = lugsRef.whereEqualTo("driverId", driverId).whereIn("status", Arrays.asList("Cancelled", "Completed"));
+        Query query = rideRef.whereEqualTo("driverId", driverId).whereIn("status", Arrays.asList("Cancelled", "Completed"));
 
         FirestoreRecyclerOptions<RideRequest> options = new FirestoreRecyclerOptions.Builder<RideRequest>().setQuery(query, RideRequest.class).build();
         adapter = new DriverRideHistoryAdapter(options);
