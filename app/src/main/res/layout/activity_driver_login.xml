@@ -21,16 +21,16 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="100dp"
             android:fontFamily="@font/shrikhand"
-            android:text="Luggerz"
+            android:text="Rattler Way"
             android:textColor="#1976D2"
             android:textSize="48sp" />
 
         <TextView
-            android:id="@+id/tvLuggerSubtitle"
+            android:id="@+id/tvDriverSubtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/shrikhand"
-            android:text="Lugger"
+            android:text="Driver"
             android:textAlignment="center"
             android:textColor="#1976D2"
             android:textSize="16sp" />

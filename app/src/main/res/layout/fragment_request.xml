@@ -4,23 +4,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="20sp">
-    <ImageView
-        android:layout_width="200sp"
-        android:layout_height="200sp"
-        android:id="@+id/itemImage"
-        android:src="@mipmap/ic_default_box_foreground"
-        android:layout_gravity="center"
-        />
-    <EditText
-        android:id="@+id/etLugItemDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@null"
-        android:hint="Item Description"
-        android:layout_marginBottom="20sp"/>
 
     <EditText
-        android:id="@+id/etLugDate"
+        android:id="@+id/etRideDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20sp"
@@ -41,7 +27,7 @@
 
 
     <EditText
-        android:id="@+id/etLugTime"
+        android:id="@+id/etRideTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20sp"
@@ -49,14 +35,14 @@
         android:hint="Time"
         android:inputType="time" />
     <EditText
-        android:id="@+id/etLugPickup"
+        android:id="@+id/etRidePickup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@null"
         android:hint="Pickup Location"
         android:layout_marginBottom="20sp"/>
     <EditText
-        android:id="@+id/etLugDestination"
+        android:id="@+id/etRideDestination"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@null"
@@ -69,22 +55,22 @@
         android:orientation="horizontal">
 
         <RadioButton
-            android:id="@+id/LuggerX"
+            android:id="@+id/RattlerX"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="LuggerX" />
+            android:text="RattlerX" />
 
         <RadioButton
-            android:id="@+id/LuggerXL"
+            android:id="@+id/RattlerXL"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="LuggerXL" />
+            android:text="RattlerXL" />
 
         <RadioButton
-            android:id="@+id/LuggerXXL"
+            android:id="@+id/RattlerXXL"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="LuggerXXL" />
+            android:text="RattlerXXL" />
     </RadioGroup>
     <Button
         android:layout_width="match_parent"
